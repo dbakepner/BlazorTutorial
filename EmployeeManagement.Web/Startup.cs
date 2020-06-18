@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmployeeManagement.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,10 @@ namespace EmployeeManagement.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddHttpClient<IEmployeeService, EmployeeService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44397/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
