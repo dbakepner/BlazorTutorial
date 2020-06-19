@@ -15,6 +15,11 @@ namespace EmployeeManagement.Web.Services
             this.httpClient = httpClient;
         }
 
+        public async Task<Employee> GetEmployeeById(int id)
+        {
+            return await httpClient.GetJsonAsync<Employee>($"api/employees/{id}");
+        }
+
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
             /*
@@ -30,5 +35,7 @@ namespace EmployeeManagement.Web.Services
              */
             return await httpClient.GetJsonAsync<Employee[]>("api/employees");
         }
+
+
     }
 }

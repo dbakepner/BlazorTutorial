@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmployeeManagement.Models\EmployeeManagement.Models.csproj" />
+    <ProjectReference Include="..\PragimTech.Components\PragimTech.Components.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -25,6 +25,8 @@ namespace EmployeeManagement.Api.Models
         public async Task<Employee> GetEmployee(int employeeId)
         {
             return await appDbContext.Employees
+                .Include(e => e.Department) // allow nav prop in Employee model
+                //ThenInclude(e => e.Skill) etc.
                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
         }
         public async Task<Employee> GetEmployeeByEmail(string email)
