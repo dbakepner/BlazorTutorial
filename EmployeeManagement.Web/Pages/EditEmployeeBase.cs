@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.Models;
+﻿using AutoMapper;
+using EmployeeManagement.Models;
 using EmployeeManagement.Web.Models;
 using EmployeeManagement.Web.Services;
 using Microsoft.AspNetCore.Components;
@@ -13,6 +14,12 @@ namespace EmployeeManagement.Web.Pages
     {
         [Inject]
         public IEmployeeService EmployeeService { get; set; }
+
+        [Inject]
+        public IMapper Mapper { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
 
         private Employee Employee { get; set; } = new Employee();
 
@@ -35,21 +42,21 @@ namespace EmployeeManagement.Web.Pages
             Departments = (await DepartmentService.GetDepartments()).ToList();
             DepartmentId = Employee.DepartmentId.ToString(); // he removed this w/o explaining
             // https://www.youtube.com/watch?v=mUqP-2LilAQ 4:04
-            // add copy
+            // 
 
-            EditEmployeeModel.EmployeeId = Employee.EmployeeId;
-            EditEmployeeModel.FirstName = Employee.FirstName;
-            EditEmployeeModel.LastName = Employee.LastName;
-            EditEmployeeModel.Email = Employee.Email;
-            EditEmployeeModel.ConfirmEmail = Employee.Email;
-            EditEmployeeModel.DateOfBirth = Employee.DateOfBirth;
-            EditEmployeeModel.Gender = Employee.Gender;
-            EditEmployeeModel.PhotoPath = Employee.PhotoPath;
-            EditEmployeeModel.DepartmentId = Employee.DepartmentId;
-            EditEmployeeModel.Department = Employee.Department;
-
+            Mapper.Map(Employee, EditEmployeeModel);
+            
         }
 
-        protected void HandleValidSubmit() { }
+        protected async Task HandleValidSubmit() {
+            Mapper.Map(EditEmployeeModel, Employee);
+            var result = await EmployeeService.UpdateEmployee(Employee);
+
+            if (result != null)
+            {
+                    NavigationManager.NavigateTo("/");
+            }
+
+        }
     }
 }

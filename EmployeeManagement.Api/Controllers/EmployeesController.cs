@@ -110,22 +110,19 @@ namespace EmployeeManagement.Api.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut()]
+        // this method results in status 400 for everybody.
         //  [FromBody] maps to repository if there is no [ApiController] at the top.
         //public async Task<ActionResult<Employee>> UpdateEmployee(int id, [FromBody] Employee employee)
-        public async Task<ActionResult<Employee>> UpdateEmployee(int id, Employee employee)
+        public async Task<ActionResult<Employee>> UpdateEmployee(Employee employee)
         {
             try
             {
-                if (id != employee.EmployeeId)
-                {
-                    return BadRequest("Employee Id mismatch");
-                }
-
-                var employeeToUpdate = await employeeRepository.GetEmployee(id);
+                var employeeToUpdate = await employeeRepository.GetEmployee(employee.EmployeeId);
+                //var employeeToUpdate = await employeeRepository.GetEmployee(employee.EmployeeId);
                 if (employeeToUpdate == null)
                 {
-                    return NotFound($"Employee with Id {id} was not found.");
+                    return NotFound($"Employee with Id {employee.EmployeeId} was not found.");
                 }
 
                 return await employeeRepository.UpdateEmployee(employee);
