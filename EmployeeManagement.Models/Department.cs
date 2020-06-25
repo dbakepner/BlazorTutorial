@@ -9,5 +9,10 @@ namespace EmployeeManagement.Models
 
         [Required]
         public string DepartmentName { get; set; }
+
+        //public static implicit operator Department(int v)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

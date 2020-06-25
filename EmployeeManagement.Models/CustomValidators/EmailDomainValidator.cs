@@ -13,15 +13,19 @@ namespace EmployeeManagement.Models.CustomValidators
         // override IsValid().  
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string[] strings = value.ToString().Split('@');
-            if (strings.Length > 1 && strings[1].ToUpper() == AllowedDomain.ToUpper())
+            if (value != null)
             {
-                return null; //Return null indicates no errors occurred.
+                string[] strings = value.ToString().Split('@');
+                if (strings.Length > 1 && strings[1].ToUpper() == AllowedDomain.ToUpper())
+                {
+                    return null; //Return null indicates no errors occurred.
+                }
+                //return new ValidationResult($"Domain must be {AllowedDomain}", 
+                // put error message into the Employee.cs class instead.
+                return new ValidationResult(ErrorMessage,
+                    new[] { validationContext.MemberName });
             }
-            //return new ValidationResult($"Domain must be {AllowedDomain}", 
-            // put error message into the Employee.cs class instead.
-            return new ValidationResult(ErrorMessage, 
-                new[] { validationContext.MemberName });
+            return null;
         }
     }
 }

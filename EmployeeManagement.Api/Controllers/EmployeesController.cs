@@ -111,7 +111,6 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpPut()]
-        // this method results in status 400 for everybody.
         //  [FromBody] maps to repository if there is no [ApiController] at the top.
         //public async Task<ActionResult<Employee>> UpdateEmployee(int id, [FromBody] Employee employee)
         public async Task<ActionResult<Employee>> UpdateEmployee(Employee employee)

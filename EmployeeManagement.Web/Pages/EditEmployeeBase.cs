@@ -38,7 +38,25 @@ namespace EmployeeManagement.Web.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            Employee = await EmployeeService.GetEmployeeById(int.Parse(Id));
+            // Going to use Edit Employee Details for updating and creating new employee.
+            int.TryParse(Id, out int employeeId);
+            // check validity
+            if (employeeId != 0)
+            {
+                Employee = await EmployeeService.GetEmployeeById(int.Parse(Id));
+            }
+            else
+            {
+                // then Create employee
+                Employee = new Employee
+                {
+                    // default values
+                    // Department = 1, // "Cannot implicitly convert int to EmployeeManagement.Department.Models."  
+                    DateOfBirth = DateTime.Now,
+                    PhotoPath = "images/nophoto.png"
+                };
+            }
+            
             Departments = (await DepartmentService.GetDepartments()).ToList();
             DepartmentId = Employee.DepartmentId.ToString(); // he removed this w/o explaining
             // https://www.youtube.com/watch?v=mUqP-2LilAQ 4:04
@@ -50,7 +68,20 @@ namespace EmployeeManagement.Web.Pages
 
         protected async Task HandleValidSubmit() {
             Mapper.Map(EditEmployeeModel, Employee);
-            var result = await EmployeeService.UpdateEmployee(Employee);
+
+            Employee result = null;
+
+            if (Employee.EmployeeId != 0)
+            {
+                // then update existing employee data
+                result = await EmployeeService.UpdateEmployee(Employee);
+            }
+            else
+            {
+                // new employee
+                result = await EmployeeService.CreateEmployee(Employee);
+            }
+            
 
             if (result != null)
             {
