@@ -3,6 +3,7 @@ using EmployeeManagement.Models;
 using EmployeeManagement.Web.Models;
 using EmployeeManagement.Web.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace EmployeeManagement.Web.Pages
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        public string PageHeaderText { get; set; }
 
         private Employee Employee { get; set; } = new Employee();
 
@@ -43,11 +46,12 @@ namespace EmployeeManagement.Web.Pages
             // check validity
             if (employeeId != 0)
             {
+                PageHeaderText = "Edit Employee";
                 Employee = await EmployeeService.GetEmployeeById(int.Parse(Id));
             }
             else
-            {
-                // then Create employee
+            {// then Create employee
+                PageHeaderText = "Create Employee";
                 Employee = new Employee
                 {
                     // default values
