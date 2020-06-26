@@ -96,4 +96,11 @@
             </div>
         </div>*@
     <button class="btn btn-primary" type="submit">Submit</button>
+    
+    @if (EditEmployeeModel.EmployeeId > 0)
+    {
+        //prevent the delete button from appearing on Create page
+        <button class="btn btn-danger" type="button" 
+                @onclick="Delete_Click">Delete</button>
+    }
 </EditForm>

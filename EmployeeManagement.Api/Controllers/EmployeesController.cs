@@ -137,30 +137,51 @@ namespace EmployeeManagement.Api.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(int id, Employee employee)
+        public async Task<ActionResult<Employee>> DeleteEmployee(int id)
         {
             try
             {
-                if (id != employee.EmployeeId)
-                {
-                    return BadRequest("Employee Id mismatch");
-                }
-
                 var employeeToDelete = await employeeRepository.GetEmployee(id);
+
                 if (employeeToDelete == null)
                 {
-                    return NotFound($"Employee with Id {id} was not found.");
+                    return NotFound($"Employee with Id = {id} not found");
                 }
 
                 return await employeeRepository.DeleteEmployee(id);
-
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                                  "Error deleting data in the database");
+                    "Error deleting data");
             }
-
         }
+
+        //[HttpDelete("{id:int}")]
+        //public async Task<ActionResult<Employee>> DeleteEmployee(int id, Employee employee)
+        //{
+        //    try
+        //    {
+        //        if (id != employee.EmployeeId)
+        //        {
+        //            return BadRequest("Employee Id mismatch");
+        //        }
+
+        //        var employeeToDelete = await employeeRepository.GetEmployee(id);
+        //        if (employeeToDelete == null)
+        //        {
+        //            return NotFound($"Employee with Id {id} was not found.");
+        //        }
+
+        //        return await employeeRepository.DeleteEmployee(id);
+
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError,
+        //                          "Error deleting data in the database");
+        //    }
+
+        //}
     }
 }
